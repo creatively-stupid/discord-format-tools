@@ -1,0 +1,28 @@
+{
+  "name": "discord-format-tools",
+  "version": "1.0.0",
+  "description": "A bunch of tools for doing fast discord formatting fast!",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"no u\"",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/creatively-stupid/discord-format-tools.git"
+  },
+  "keywords": [
+    "discord",
+    "formatting",
+    "tools"
+  ],
+  "author": "RedMikePumpkin",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/creatively-stupid/discord-format-tools/issues"
+  },
+  "homepage": "https://github.com/creatively-stupid/discord-format-tools#readme",
+  "dependencies": {
+    "clipboardy": "^2.0.0"
+  }
+}
