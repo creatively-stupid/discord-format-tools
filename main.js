@@ -21,6 +21,7 @@ var converters = [
                 o += s[i];
             }
         }
+        return o;
     },
     (s) => {
         var o = "";
@@ -32,16 +33,18 @@ var converters = [
                 o += s[i];
             }
         }
+        return o;
     },
     (s) => {
         var o = "";
         for (var i = 0; i < s.length; i++) {
             o += "||**~~__*`" + s[i] + "`*__~~**||";
         }
+        return o;
     }
 ];
 var askstage = -1;
-var tree = [0, "", "", ""];
+var tree = [0, "", ""];
 var handleData = (d) => {
     var str = d.toString().trim();
     ( // thanks reddit I now use this instead of switch case
@@ -82,23 +85,71 @@ var handleData = (d) => {
             )();
         }:
         (askstage === 1)?()=>{
+            console.log("converting...");
+            tree[1] = str;
+            tree[2] = converters[tree[0]-1](tree[1]);
+            console.log("message is " + tree[2].length + " characters long.");
+            if (tree[2].length > 2000) {
+                console.log("message is over Discord's 2000 character limit");
+                console.log("do you still want to continue? (Y/n)");
+                askstage = 2;
+            } else {
+                console.log("copying message....");
+                clipboard.writeSync(tree[2]);
+                console.log("copied message to clipboard!");
+                console.log("");
+                console.log("Thank you for using Dɪsᴄᴏʀᴅ-Fᴏʀᴍᴀᴛ-Tᴏᴏʟs");
+                console.log("");
+                console.log("select your tool:");
+                console.log(" 1. small caps (discord style)");
+                console.log(" 2. small caps (unicode style)");
+                console.log(" 3. crazy text");
+                console.log("");
+                process.stdout.write("> ");
+                askstage = 0;
+                tree = [0, "", "", ""];
+            }
+            console.log("");
+            process.stdout.write("> ");
+        }:
+        (askstage === 1)?()=>{
             (
-                (tree[0] === 1)?()=>{
-                    console.log("converting...");
-                    tree[1] = str;
+                (str.toLowerCase() === "y")?()=>{
+                    console.log("copying message....");
+                    clipboard.writeSync(tree[2]);
+                    console.log("copied message to clipboard!");
+                    console.log("");
+                    console.log("Thank you for using Dɪsᴄᴏʀᴅ-Fᴏʀᴍᴀᴛ-Tᴏᴏʟs");
+                    console.log("");
+                    console.log("select your tool:");
+                    console.log(" 1. small caps (discord style)");
+                    console.log(" 2. small caps (unicode style)");
+                    console.log(" 3. crazy text");
+                    console.log("");
                     process.stdout.write("> ");
+                    askstage = 0;
+                    tree = [0, "", "", ""];
                 }:
-                (tree[0] === 2)?()=>{
-                    console.log("converting...");
-                    tree[1] = str;
+                (str.toLowerCase() === "n")?()=>{
+                    console.log("Message not copied.");
+                    console.log("");
+                    console.log("Thank you for using Dɪsᴄᴏʀᴅ-Fᴏʀᴍᴀᴛ-Tᴏᴏʟs");
+                    console.log("");
+                    console.log("select your tool:");
+                    console.log(" 1. small caps (discord style)");
+                    console.log(" 2. small caps (unicode style)");
+                    console.log(" 3. crazy text");
+                    console.log("");
                     process.stdout.write("> ");
+                    askstage = 0;
+                    tree = [0, "", "", ""];
                 }:
-                (tree[0] === 3)?()=>{
-                    console.log("converting...");
-                    tree[1] = str;
-                    process.stdout.write("> ");
-                }:
-            error)();
+                ()=>{
+                console.log("invalid option! Use \"Y\" or \"N\"");
+                console.log("");
+                process.stdout.write("> ");
+                }
+            )();
         }:
     error)();
 };
