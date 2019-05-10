@@ -8,6 +8,21 @@ function error() {
     console.log("\nERROR INCOUNTERED! \nExiting...");
     process.exit(0);
 }
+String.prototype.isLowerCase = () => {
+    return /^[a-z]*$/.test(this.valueOf());
+};
+var converters = [
+    (s) => {
+        var o = "";
+        for (var i = 0; i < s.length; i++) {
+            if (s[i].isLowerCase()) {
+                o += "\\:regional_indicator_" + s[i] + ":";
+            } else {
+                o += s[i];
+            }
+        }
+    }
+];
 var askstage = -1;
 var tree = [0, "", "", ""];
 var handleData = (d) => {
@@ -53,23 +68,18 @@ var handleData = (d) => {
             (
                 (tree[0] === 1)?()=>{
                     console.log("converting...");
-                    process.stdout.write("> ");
-                    askstage = 1;
                     tree[1] = str;
+                    process.stdout.write("> ");
                 }:
                 (tree[0] === 2)?()=>{
                     console.log("converting...");
-                    process.stdout.write("> ");
-                    askstage = 1;
                     tree[1] = str;
+                    process.stdout.write("> ");
                 }:
                 (tree[0] === 3)?()=>{
-                    console.log("chose crazy text");
-                    console.log("enter message to be converted:");
-                    console.log("");
-                    process.stdout.write("> ");
-                    askstage = 1;
+                    console.log("converting...");
                     tree[1] = str;
+                    process.stdout.write("> ");
                 }:
             error)();
         }:
