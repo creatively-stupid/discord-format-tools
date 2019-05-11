@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/creatively-stupid/discord-format-tools#readme",
   "dependencies": {
-    "chalk": "^2.4.2"
+    "chalk": "^2.4.2",
+    "clipboardy": "^2.0.0"
   }
 }
