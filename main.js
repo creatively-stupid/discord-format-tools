@@ -1,4 +1,5 @@
 var fs = require("fs"),
+    path = require("path"),
     converters = require("./obj-to-arr")(require("./converters")),
     cli = require("./cli"),
     chalk = require("chalk"),
@@ -19,8 +20,14 @@ cli((str) => {
                     askstage = 1;
                 }:
                 ()=>{
-                cli.write("invalid option! Valid options are:\n");
-                printchoices();
+                    if (str === (converters.length+1).toString()) {
+                        cli.write(127, 127, 127, "enter name for file to load...\n\n")
+                            .write(255, 0, 0, "> ");
+                        askstage = 0.1;
+                    } else {
+                        cli.write("invalid option! Valid options are:\n");
+                        printchoices();
+                    }
                 }
             )();
         }:
@@ -43,6 +50,24 @@ cli((str) => {
                 .write("\n")
                 .exit();
         }:
+        (askstage === 0.1)?()=>{
+            cli.write(127, 127, 127, "loading ")
+                .write(path.join(process.cwd(), str))
+                .write(127, 127, 127, "...\n");
+            var file = fs.readFileSync(path.join(process.cwd(), str), {encoding: 'utf-8'});
+            cli.write(127, 127, 127, "done loading!\nParsing...\n");
+            try {
+                var dft_require = require;
+                converters.push(["custom", new Function(file)()]);
+                choice = converters.length - 1;
+                cli.write(127, 127, 127, "enter message to be converted:\n\n")
+                    .write(255, 0, 0, "> ");
+                askstage = 1;
+            } catch (e) {
+                cli.write(127, 127, 127, "Error Parsing! " + e)
+                    .error();
+            }
+        }:
     cli.error)();
 }, chalk)
     .write("Color support level ")
@@ -60,6 +85,9 @@ function printchoices() {
             .write(converters[i][0])
             .write("\n");
     }
-    cli.write("\n")
+    cli.write(0, 255, 255, converters.length+1)
+        .write(0, 255, 255, ") ")
+        .write("load custom converter function")
+        .write("\n\n")
         .write(255, 0, 0, "> ");
 }

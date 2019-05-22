@@ -24,6 +24,7 @@
   "homepage": "https://github.com/creatively-stupid/discord-format-tools#readme",
   "dependencies": {
     "chalk": "^2.4.2",
-    "clipboardy": "^2.0.0"
+    "clipboardy": "^2.0.0",
+    "pngjs": "^3.4.0"
   }
 }
